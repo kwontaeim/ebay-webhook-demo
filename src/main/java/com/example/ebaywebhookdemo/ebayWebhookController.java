@@ -25,7 +25,6 @@ public class ebayWebhookController {
 	
 	@RequestMapping(value = "notification", method = RequestMethod.GET, produces = { "application/json"})
 	ResponseEntity<Map<String, Object>> notification(@RequestParam String challenge_code) throws Exception {
-		System.out.println("incoming...");
 		
 		String challengeCode = challenge_code;
 		String verificationToken = "1234-1234-1234-1234-1234-1234-1234";
@@ -40,11 +39,10 @@ public class ebayWebhookController {
 		digest.update(verificationToken.getBytes(StandardCharsets.UTF_8));
 		byte[] bytes = digest.digest(endpoint.getBytes(StandardCharsets.UTF_8));
 		
-		System.out.println("Returning challenge_code: "+ bytes.toString());
+		System.out.println("Returning challenge_code: "+ org.apache.commons.codec.binary.Hex.encodeHexString(bytes));
 		
-		map.put("challengeResponse", bytes.toString());
+		map.put("challengeResponse", org.apache.commons.codec.binary.Hex.encodeHexString(bytes));
 		
-		//System.out.println(org.apache.commons.codec.binary.Hex.encodeHexString(bytes));
 		
 		return new ResponseEntity<Map<String, Object>>(map,  HttpStatus.OK);
 	}
