@@ -28,8 +28,8 @@ public class ebayWebhookController {
 		System.out.println("incoming...");
 		
 		String challengeCode = challenge_code;
-		String verificationToken = "test123";
-		String endpoint = "test";
+		String verificationToken = "1234-1234-1234-1234-1234-1234-1234";
+		String endpoint = "https://ebay-webhook-demo.herokuapp.com/notification";
 		
 		System.out.println("challenge_code: "+ challenge_code);
 		
@@ -39,6 +39,8 @@ public class ebayWebhookController {
 		digest.update(challengeCode.getBytes(StandardCharsets.UTF_8));
 		digest.update(verificationToken.getBytes(StandardCharsets.UTF_8));
 		byte[] bytes = digest.digest(endpoint.getBytes(StandardCharsets.UTF_8));
+		
+		System.out.println("Returning challenge_code: "+ bytes.toString());
 		
 		map.put("challengeResponse", bytes.toString());
 		
