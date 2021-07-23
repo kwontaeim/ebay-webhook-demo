@@ -11,10 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ebayWebhookController {
+	
+    @RequestMapping("/")
+    @ResponseBody
+    String home() {
+      return "Hello World!";
+    }
 	
 	@RequestMapping(value = "notification", method = RequestMethod.GET, produces = { "application/json"})
 	ResponseEntity<Map<String, Object>> notification(@RequestParam String challenge_code) throws Exception {
