@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,21 +26,23 @@ public class EbayNotificationController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(EbayNotificationController.class);
 	
+    @Autowired
+    private EbayNotificationProperties properties;
+	
 	@RequestMapping(value = "notification", method = RequestMethod.GET, produces = { "application/json"})
 	ResponseEntity<Map<String, Object>> notification(@RequestParam String challenge_code) throws Exception {
 		
-		String challengeCode = challenge_code;
 		
 		//TO-DO : handling them as a prop file 
-		String verificationToken = "1234-1234-1234-1234-1234-1234-1234";
-		String endpoint = "https://ebay-webhook-demo.herokuapp.com/notification";
+		String verificationToken = properties.getVerificationToken();
+		String endpoint = properties.getEndoint();
 		
-		logger.info("challenge_code: {}", challenge_code);
+		logger.info("challenge_code: {}, verificationToken: {}, endpoint: {} ", challenge_code, verificationToken, endpoint);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		MessageDigest digest = MessageDigest.getInstance("SHA-256");
-		digest.update(challengeCode.getBytes(StandardCharsets.UTF_8));
+		digest.update(challenge_code.getBytes(StandardCharsets.UTF_8));
 		digest.update(verificationToken.getBytes(StandardCharsets.UTF_8));
 		byte[] bytes = digest.digest(endpoint.getBytes(StandardCharsets.UTF_8));
 		
