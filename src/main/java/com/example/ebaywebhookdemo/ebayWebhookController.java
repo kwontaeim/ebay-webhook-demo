@@ -57,7 +57,7 @@ public class ebayWebhookController {
 	ResponseEntity<String> notification(@RequestBody Object obj) throws Exception {
 		
 		ObjectMapper mapper = new ObjectMapper();  
-		System.out.println(mapper.writeValueAsString(obj));
+		System.out.println("Request Body: " + mapper.writeValueAsString(obj));
 		return new ResponseEntity<>("Success",  HttpStatus.OK);
 	}
 
