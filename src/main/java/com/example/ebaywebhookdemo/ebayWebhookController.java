@@ -8,14 +8,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,11 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 public class ebayWebhookController {
 	
-    @RequestMapping("/")
-    @ResponseBody
-    String home() {
-      return "Hello World!";
-    }
+	private static final Logger logger = LoggerFactory.getLogger(ebayWebhookController.class);
 	
 	@RequestMapping(value = "notification", method = RequestMethod.GET, produces = { "application/json"})
 	ResponseEntity<Map<String, Object>> notification(@RequestParam String challenge_code) throws Exception {
@@ -38,7 +34,7 @@ public class ebayWebhookController {
 		String verificationToken = "1234-1234-1234-1234-1234-1234-1234";
 		String endpoint = "https://ebay-webhook-demo.herokuapp.com/notification";
 		
-		System.out.println("challenge_code: "+ challenge_code);
+		logger.info("challenge_code: {}", challenge_code);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -47,7 +43,7 @@ public class ebayWebhookController {
 		digest.update(verificationToken.getBytes(StandardCharsets.UTF_8));
 		byte[] bytes = digest.digest(endpoint.getBytes(StandardCharsets.UTF_8));
 		
-		System.out.println("Returning challenge_code: "+ org.apache.commons.codec.binary.Hex.encodeHexString(bytes));
+		logger.info("Returning challenge_code: {}", org.apache.commons.codec.binary.Hex.encodeHexString(bytes));
 		
 		map.put("challengeResponse", org.apache.commons.codec.binary.Hex.encodeHexString(bytes));
 		
@@ -69,8 +65,8 @@ public class ebayWebhookController {
             map.put(key, value);
         }
         
-        System.out.println("Request Header: " + map.toString());
-		System.out.println("Request Body: " + mapper.writeValueAsString(obj));
+        logger.info("Request Header: {}", map.toString());
+        logger.info("Request Body: {}", mapper.writeValueAsString(obj));
 		return new ResponseEntity<>("Success",  HttpStatus.OK);
 	}
 
