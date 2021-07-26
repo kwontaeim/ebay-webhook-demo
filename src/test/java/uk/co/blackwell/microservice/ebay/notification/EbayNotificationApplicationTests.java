@@ -1,10 +1,10 @@
-package com.example.ebaywebhookdemo;
+package uk.co.blackwell.microservice.ebay.notification;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class EbayWebhookDemoApplicationTests {
+class EbayNotificationApplicationTests {
 
 	@Test
 	void contextLoads() {
