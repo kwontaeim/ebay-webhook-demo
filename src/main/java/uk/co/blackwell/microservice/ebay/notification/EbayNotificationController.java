@@ -1,4 +1,4 @@
-package com.example.ebaywebhookdemo;
+package uk.co.blackwell.microservice.ebay.notification;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
-public class ebayWebhookController {
+public class EbayNotificationController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ebayWebhookController.class);
+	private static final Logger logger = LoggerFactory.getLogger(EbayNotificationController.class);
 	
 	@RequestMapping(value = "notification", method = RequestMethod.GET, produces = { "application/json"})
 	ResponseEntity<Map<String, Object>> notification(@RequestParam String challenge_code) throws Exception {

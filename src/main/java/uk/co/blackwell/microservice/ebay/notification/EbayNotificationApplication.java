@@ -1,13 +1,13 @@
-package com.example.ebaywebhookdemo;
+package uk.co.blackwell.microservice.ebay.notification;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EbayWebhookDemoApplication {
+public class EbayNotificationApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EbayWebhookDemoApplication.class, args);
+		SpringApplication.run(EbayNotificationApplication.class, args);
 	}
 
 }
