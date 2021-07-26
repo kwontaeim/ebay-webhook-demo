@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @RestController
 public class ebayWebhookController {
 	
@@ -28,6 +30,8 @@ public class ebayWebhookController {
 	ResponseEntity<Map<String, Object>> notification(@RequestParam String challenge_code) throws Exception {
 		
 		String challengeCode = challenge_code;
+		
+		//TO-DO : handling them as a prop file 
 		String verificationToken = "1234-1234-1234-1234-1234-1234-1234";
 		String endpoint = "https://ebay-webhook-demo.herokuapp.com/notification";
 		
@@ -49,11 +53,12 @@ public class ebayWebhookController {
 	}
 	
 	
-	@RequestMapping(value = "notification", method = RequestMethod.POST, produces = { "application/json"})
-	ResponseEntity<String> notification(@RequestBody Object obj){
+	@RequestMapping(value = "notification", method = RequestMethod.POST, produces = {"application/json"})
+	ResponseEntity<String> notification(@RequestBody Object obj) throws Exception {
 		
-		System.out.println(obj.toString());
-		return new ResponseEntity<>("test",  HttpStatus.OK);
+		ObjectMapper mapper = new ObjectMapper();  
+		System.out.println(mapper.writeValueAsString(obj));
+		return new ResponseEntity<>("Success",  HttpStatus.OK);
 	}
 
 }
