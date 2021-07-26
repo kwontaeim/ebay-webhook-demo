@@ -2,8 +2,11 @@ package com.example.ebaywebhookdemo;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,9 +57,19 @@ public class ebayWebhookController {
 	
 	
 	@RequestMapping(value = "notification", method = RequestMethod.POST, produces = {"application/json"})
-	ResponseEntity<String> notification(@RequestBody Object obj) throws Exception {
+	ResponseEntity<String> notification(HttpServletRequest request, @RequestBody Object obj) throws Exception {
 		
 		ObjectMapper mapper = new ObjectMapper();  
+        Map<String, String> map = new HashMap<String, String>();
+
+        Enumeration headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String key = (String) headerNames.nextElement();
+            String value = request.getHeader(key);
+            map.put(key, value);
+        }
+        
+        System.out.println("Request Header: " + map.toString());
 		System.out.println("Request Body: " + mapper.writeValueAsString(obj));
 		return new ResponseEntity<>("Success",  HttpStatus.OK);
 	}
